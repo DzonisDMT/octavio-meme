@@ -461,6 +461,45 @@ p {
   font-size: 1.08rem;
 }
 
+.dapp-tag {
+  margin-top: 0.55rem;
+  color: var(--teal);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.dapp-rules {
+  margin: 0.9rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+}
+
+.dapp-rules li + li {
+  margin-top: 0.45rem;
+}
+
+.phase {
+  max-width: 42rem;
+  padding: 1.15rem 1.2rem;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(13, 33, 66, 0.72);
+}
+
+.phase .kicker {
+  margin-bottom: 0.35rem;
+}
+
+.phase h3 {
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
+}
+
+.phase p {
+  margin-top: 0.45rem;
+  color: var(--muted);
+}
+
 .dapp-note {
   margin-top: 0.8rem;
   color: var(--muted);
@@ -679,7 +718,6 @@ p {
 
   .dapp-card {
     grid-template-columns: 180px 1fr;
-    max-width: 760px;
   }
 
   .buy-grid {

@@ -100,7 +100,7 @@
     });
   }
 
-  var sections = ["home", "story", "meme", "apps", "buy"]
+  var sections = ["home", "story", "meme", "apps", "roadmap", "buy"]
     .map(function (id) {
       return document.getElementById(id);
     })
@@ -147,8 +147,8 @@
     });
   }
 
-  var card = document.querySelector("[data-dapp='pixelloto']");
-  var siteUrl = httpUrl(config.pixellotoUrl);
+  var card = document.querySelector("[data-dapp='pixellotto']");
+  var siteUrl = httpUrl(config.pixellottoUrl);
   if (card && siteUrl) {
     var status = card.querySelector("[data-dapp-status]");
     var note = card.querySelector("[data-dapp-note]");
@@ -163,7 +163,7 @@
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.className = "text-link";
-      link.textContent = "Open PixelLoto";
+      link.textContent = "Open PixelLotto";
       var hint = document.createElement("span");
       hint.className = "sr-only";
       hint.textContent = " (opens in a new tab)";

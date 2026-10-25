@@ -8,11 +8,13 @@ window.OCTAVIO_CONFIG = {
      When you paste the real address, Copy CA copies that exact string. */
   ca: "[CA]",
 
-  /* PIXELLOTO_URL
-     Paste the real PixelLoto site here when it exists, for example:
-     pixellotoUrl: "https://pixelloto.example"
+  /* PIXELLOTTO_URL
+     Paste the real PixelLotto site here when it exists:
+     pixellottoUrl: "https://…"
      Keep the empty string while the site is in progress.
      Do not invent a URL. An empty string keeps the Coming soon card,
-     with no link. Only http(s) URLs become a link. */
-  pixellotoUrl: ""
+     with no link. Only http(s) URLs become a link.
+     Docs only, not a public URL: package pixellotto-1.1.9.mds.zip,
+     claim page claim.html. */
+  pixellottoUrl: ""
 };
