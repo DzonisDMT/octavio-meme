@@ -35,22 +35,22 @@ Do not invent a placeholder link.
 
 ## GitHub Pages
 
-Pages is served from the **main** branch, **root** folder (`/`), not `/docs`.
+The site is set up to publish from the **main** branch, **root** folder (`/`), not `/docs`.
 
-This repo includes `.nojekyll` so Pages serves the images and static files as-is.
+`.nojekyll` is in the repo so Pages serves the images and static files as-is.
 
-The site URL is:
+After Pages is turned on, the site URL is:
 
 https://dzonisdmt.github.io/octavio-meme/
 
-To turn Pages on by hand (Settings → Pages):
+This environment cannot change repository Pages settings (the API returns 403). Turn it on once:
 
-1. Open **Settings → Pages** for this repository.
+1. Open **Settings → Pages** for [DzonisDMT/octavio-meme](https://github.com/DzonisDMT/octavio-meme/settings/pages).
 2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
 3. Choose branch **main** and folder **/ (root)**.
 4. Save. The first deploy can take a minute.
 
-If Pages was already enabled from this repo’s main branch, a push to `main` publishes the update.
+Later pushes to `main` publish on their own.
 
 ## What is on the page
 
