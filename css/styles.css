@@ -427,6 +427,12 @@ h2 {
     0 -22px 40px rgba(0, 0, 0, 0.22);
 }
 
+#team {
+  background: #24222c;
+  border-top-left-radius: 58% 28px;
+  border-top-right-radius: 42% var(--lip);
+}
+
 #story {
   background: var(--bg-raise);
   border-top-left-radius: 72% 28px;
@@ -510,6 +516,96 @@ h2 {
   color: var(--muted);
   background: #1a282c;
   border-radius: 0 1rem 1rem 0;
+}
+
+.team-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.team-card {
+  margin: 0;
+  background: #1a1b22;
+  border: 1px solid var(--line);
+  border-radius: 1.35rem 1.8rem 1.2rem 1.55rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.team-card:nth-child(2) {
+  border-radius: 1.7rem 1.15rem 1.55rem 1.25rem;
+}
+
+.team-card > img,
+.team-visual img,
+.team-visual video {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #121316;
+}
+
+.team-visual {
+  position: relative;
+  aspect-ratio: 1;
+  background: #121316;
+}
+
+.team-visual img,
+.team-visual video {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.team-body {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.team-role {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-weight: 650;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.team-card h3 {
+  margin-top: 0.45rem;
+  font-size: 1.55rem;
+  font-weight: 640;
+  letter-spacing: -0.03em;
+}
+
+.team-card p {
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
+.clip-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 0.9rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 180ms ease;
+}
+
+.clip-toggle:hover {
+  background: rgba(244, 242, 236, 0.08);
+}
+
+.clip-toggle[aria-pressed="true"] {
+  background: rgba(62, 224, 220, 0.16);
+  border-color: rgba(62, 224, 220, 0.55);
 }
 
 .beat-grid {
@@ -986,12 +1082,14 @@ code {
   }
 
   .btn:hover,
-  .brand-pill:hover {
+  .brand-pill:hover,
+  .clip-toggle:hover {
     transform: translateY(-2px);
   }
 
   .btn:active,
-  .brand-pill:active {
+  .brand-pill:active,
+  .clip-toggle:active {
     transform: translateY(0);
   }
 
@@ -1011,6 +1109,11 @@ code {
 
   .dapp-card {
     grid-template-columns: 190px 1fr;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 
   .buy-grid {
@@ -1113,6 +1216,7 @@ code {
 
   .btn:hover,
   .brand-pill:hover,
+  .clip-toggle:hover,
   .beat:hover,
   .k-letter {
     transform: none;
@@ -1129,6 +1233,7 @@ code {
 @media (forced-colors: active) {
   .btn,
   .brand-pill,
+  .clip-toggle,
   .nav-toggle,
   .lightbox-close {
     border: 1px solid ButtonText;

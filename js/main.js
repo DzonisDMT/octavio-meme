@@ -123,7 +123,7 @@
     }
   }
 
-  var sections = ["home", "story", "meme", "apps", "roadmap", "buy"]
+  var sections = ["home", "team", "story", "meme", "apps", "roadmap", "buy"]
     .map(function (id) {
       return document.getElementById(id);
     })
@@ -207,6 +207,7 @@
   }
 
   setupKineticTitle();
+  setupMascotClip();
 
   function setupKineticTitle() {
     var title = document.getElementById("home-title");
@@ -309,5 +310,91 @@
 
     apply();
     if (motion.addEventListener) motion.addEventListener("change", apply);
+  }
+
+  function setupMascotClip() {
+    var video = document.querySelector("[data-clip]");
+    var still = document.querySelector("[data-clip-still]");
+    var button = document.querySelector("[data-clip-toggle]");
+    if (!video || !button) return;
+    var src = video.getAttribute("data-src");
+    var motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var ready = false;
+    var userPaused = false;
+
+    function ensureSrc() {
+      if (ready || !src) return;
+      if (still && still.getAttribute("src")) video.poster = still.getAttribute("src");
+      video.preload = "none";
+      video.src = src;
+      ready = true;
+    }
+
+    function setPressed(on) {
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.textContent = on ? "Pause clip" : "Play clip";
+    }
+
+    function play() {
+      ensureSrc();
+      var pending = video.play();
+      if (pending && pending.catch) {
+        pending.catch(function () {
+          setPressed(false);
+        });
+      }
+    }
+
+    function pause() {
+      if (!video.paused) video.pause();
+      setPressed(false);
+    }
+
+    video.addEventListener("playing", function () {
+      video.hidden = false;
+      if (still) still.hidden = true;
+      setPressed(true);
+    });
+
+    button.addEventListener("click", function () {
+      if (!video.paused && !video.hidden) {
+        userPaused = true;
+        pause();
+        return;
+      }
+      userPaused = false;
+      play();
+    });
+
+    var seen = false;
+
+    function autoplay() {
+      if (motion.matches || userPaused || document.hidden) return;
+      if (seen) play();
+      else pause();
+    }
+
+    if ("IntersectionObserver" in window) {
+      var clipRoot = video.closest(".team-card") || video;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          seen = entry.isIntersecting;
+          autoplay();
+        });
+      }, { threshold: 0.4 });
+      io.observe(clipRoot);
+    }
+
+    if (motion.addEventListener) {
+      motion.addEventListener("change", function () {
+        if (motion.matches) pause();
+        else autoplay();
+      });
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) pause();
+      else autoplay();
+    });
   }
 })();
