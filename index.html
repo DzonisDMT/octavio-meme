@@ -44,6 +44,7 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
     <nav id="site-nav" class="nav-links" data-nav aria-label="Page">
       <a href="#home">Home</a>
+      <a href="#team">Team</a>
       <a href="#story">Story</a>
       <a href="#meme">Meme</a>
       <a href="#apps">Apps</a>
@@ -77,6 +78,39 @@
         <div class="hero-frame">
           <img src="x/octavio-first-post.jpg" width="1024" height="1024" alt="Octavio, an orange octopus in a white hoodie, lounges on a yellow sponge underwater with a drink and a phone showing a node network. A pink badge reads $OCTAVIO." fetchpriority="high">
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="team" aria-labelledby="team-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Mascot team</p>
+          <h2 id="team-title">Octavio met notrandomguy</h2>
+          <p class="lede">Octavio runs the node. notrandomguy brought the hat. Friends from the community, not a Minima Global partnership.</p>
+        </header>
+        <div class="team-grid">
+          <article class="team-card">
+            <img src="x/octavio-first-post.jpg" width="1024" height="1024" alt="Octavio, an orange octopus in a white hoodie, lounges on a yellow sponge with a phone. He is the community mascot and the face of $OCTAVIO." loading="lazy" decoding="async">
+            <div class="team-body">
+              <p class="team-role">Minima community mascot</p>
+              <h3>Octavio</h3>
+              <p>Orange, hoodied, and running a node. He is the face of $OCTAVIO.</p>
+            </div>
+          </article>
+          <article class="team-card">
+            <div class="team-visual">
+              <img src="images/notrandomguy.jpg" width="960" height="960" alt="notrandomguy, a small black creature in a purple wizard hat and cloak, smiles while holding a glowing teal star." loading="lazy" decoding="async" data-clip-still>
+              <video id="nrg-clip" class="team-clip" data-clip data-src="images/notrandomguy.mp4" width="720" height="720" muted playsinline loop preload="none" hidden aria-label="Silent clip of notrandomguy, a black creature in a purple wizard hat, holding a teal star."></video>
+            </div>
+            <div class="team-body">
+              <p class="team-role">notrandom.fun community mascot</p>
+              <h3>notrandomguy</h3>
+              <p>Wizard hat, teal star, happy to be here.</p>
+              <button class="clip-toggle" type="button" data-clip-toggle aria-controls="nrg-clip" aria-pressed="false">Play clip</button>
+            </div>
+          </article>
+        </div>
+        <p class="note">Community collab only. notrandomguy is the mascot for <a class="plain-link" href="https://notrandom.fun" target="_blank" rel="noopener noreferrer">notrandom.fun<span class="sr-only"> (opens in a new tab)</span></a>. Not affiliated with Minima Global, Arm, or Siemens.</p>
       </div>
     </section>
 
