@@ -5,17 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$OCTAVIO — Just an Octavio running a node.</title>
   <meta name="description" content="Community meme coin. Just an Octavio running a node. Launch on notrandom.fun. Not affiliated with Minima Global, Arm, or Siemens.">
-  <meta name="theme-color" content="#071428">
+  <meta name="theme-color" content="#141418">
+  <meta name="color-scheme" content="dark">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="$OCTAVIO — Just an Octavio running a node.">
   <meta property="og:description" content="Community meme only. Not affiliated with Minima Global, Arm, or Siemens.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://dzonisdmt.github.io/octavio-meme/x/octavio-x-banner-1500x500.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="x/octavio-first-post.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
+  <noscript>
+    <style>
+      @media (max-width: 1039px) {
+        .nav-toggle { display: none; }
+        .nav-links {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: none;
+          flex-direction: row;
+          flex-wrap: wrap;
+          background: transparent;
+          border: 0;
+          box-shadow: none;
+          padding: 0;
+        }
+      }
+    </style>
+  </noscript>
 </head>
 <body>
   <a class="skip" href="#home">Skip to content</a>
@@ -40,15 +60,20 @@
       <div class="bubble bubble-c" aria-hidden="true"></div>
       <div class="bubble bubble-d" aria-hidden="true"></div>
       <div class="wrap hero-grid">
-        <div>
+        <div class="hero-copy">
           <p class="kicker">Community meme coin</p>
-          <h1 id="home-title">$OCTAVIO</h1>
+          <h1 id="home-title" class="hero-title">$OCTAVIO</h1>
           <p class="tagline">Just an Octavio running a node.</p>
           <div class="hero-actions">
             <a class="btn" href="https://notrandom.fun" target="_blank" rel="noopener noreferrer">Buy on notrandom<span class="sr-only"> (opens in a new tab)</span></a>
             <button class="btn" type="button" data-copy-ca>CA coming soon</button>
           </div>
         </div>
+        <!--
+          Hero visual slot. Static art: x/octavio-first-post.jpg.
+          A local Meshy (or similar) render can replace this image later.
+          Do not embed Three.js, a model viewer, or any remote 3D asset here.
+        -->
         <div class="hero-frame">
           <img src="x/octavio-first-post.jpg" width="1024" height="1024" alt="Octavio, an orange octopus in a white hoodie, lounges on a yellow sponge underwater with a drink and a phone showing a node network. A pink badge reads $OCTAVIO." fetchpriority="high">
         </div>
@@ -72,97 +97,97 @@
         <div class="beat-grid">
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Deep in the coral, a tiny orange octopus was born. Eight arms. Zero bags.">
-              <img src="images/octavio-beat-01.jpg" width="1024" height="1024" alt="A baby orange octopus hatches from a glowing egg in a coral reef." loading="lazy">
+              <img src="images/octavio-beat-01.jpg" width="1024" height="1024" alt="A baby orange octopus hatches from a glowing egg in a coral reef." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">01</span>Deep in the coral, a tiny orange octopus was born. Eight arms. Zero bags.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Every fish chased whales. Octavio just wanted to own something real.">
-              <img src="images/octavio-beat-02.jpg" width="1024" height="1024" alt="Octavio peeks from the coral as a whale swims past trailing gold coins." loading="lazy">
+              <img src="images/octavio-beat-02.jpg" width="1024" height="1024" alt="Octavio peeks from the coral as a whale swims past trailing gold coins." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">02</span>Every fish chased whales. Octavio just wanted to own something real.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="One day a phone sank to the reef. It was still syncing.">
-              <img src="images/octavio-beat-03.jpg" width="1024" height="1024" alt="A smartphone glows on the sea floor with a sync bar while Octavio peeks, surprised." loading="lazy">
+              <img src="images/octavio-beat-03.jpg" width="1024" height="1024" alt="A smartphone glows on the sea floor with a sync bar while Octavio peeks, surprised." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">03</span>One day a phone sank to the reef. It was still syncing.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="The screen said: &quot;Anyone can run a full node. On a phone.&quot; He read it 8 times. One per arm.">
-              <img src="images/octavio-beat-04.jpg" width="1024" height="1024" alt="Octavio holds a phone with his tentacles, eyes sparkling." loading="lazy">
+              <img src="images/octavio-beat-04.jpg" width="1024" height="1024" alt="Octavio holds a phone with his tentacles, eyes sparkling." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">04</span>The screen said: “Anyone can run a full node. On a phone.” He read it 8 times. One per arm.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="It was Minima. No server farm. No permission. Just a phone.">
-              <img src="images/octavio-beat-05.jpg" width="1024" height="1024" alt="Octavio stands on a rock and raises a phone, with a glowing three-bar mark above him." loading="lazy">
+              <img src="images/octavio-beat-05.jpg" width="1024" height="1024" alt="Octavio stands on a rock and raises a phone, with a glowing three-bar mark above him." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">05</span>It was Minima. No server farm. No permission. Just a phone.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="He found a white hoodie with three slanted bars. Perfect fit.">
-              <img src="images/octavio-beat-06.jpg" width="1024" height="1024" alt="Octavio pulls on a white hoodie with three slanted bars and smiles." loading="lazy">
+              <img src="images/octavio-beat-06.jpg" width="1024" height="1024" alt="Octavio pulls on a white hoodie with three slanted bars and smiles." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">06</span>He found a white hoodie with three slanted bars. Perfect fit.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Full node. On a phone. At 4% battery. Just an Octavio running a node.">
-              <img src="images/octavio-beat-07.jpg" width="1024" height="1024" alt="Octavio lounges on a yellow sea sponge with a drink and a phone showing a node screen." loading="lazy">
+              <img src="images/octavio-beat-07.jpg" width="1024" height="1024" alt="Octavio lounges on a yellow sea sponge with a drink and a phone showing a node screen." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">07</span>Full node. On a phone. At 4% battery. Just an Octavio running a node.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Official mascot energy. Community meme fuel. Same reef, same node.">
-              <img src="images/octavio-beat-08.jpg" width="1024" height="1024" alt="Octavio winks and holds up a peace-sign tentacle among confetti bubbles." loading="lazy">
+              <img src="images/octavio-beat-08.jpg" width="1024" height="1024" alt="Octavio winks and holds up a peace-sign tentacle among confetti bubbles." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">08</span>Official mascot energy. Community meme fuel. Same reef, same node.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Then he heard the gossip: Minima is going into chips. With Arm. And Siemens.">
-              <img src="images/octavio-beat-09.jpg" width="1024" height="1024" alt="Octavio stares through a magnifying glass at a glowing microchip." loading="lazy">
+              <img src="images/octavio-beat-09.jpg" width="1024" height="1024" alt="Octavio stares through a magnifying glass at a glowing microchip." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">09</span>Then he heard the gossip: Minima is going into chips. With Arm. And Siemens.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="A drone flew with a full Minima node inside. No cloud. Octavio wanted a ride.">
-              <img src="images/octavio-beat-10.jpg" width="1024" height="1024" alt="Octavio rides a small drone over the ocean, tentacles waving." loading="lazy">
+              <img src="images/octavio-beat-10.jpg" width="1024" height="1024" alt="Octavio rides a small drone over the ocean, tentacles waving." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">10</span>A drone flew with a full Minima node inside. No cloud. Octavio wanted a ride.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Next stop: real silicon. Phones today. Every chip tomorrow.">
-              <img src="images/octavio-beat-11.jpg" width="1024" height="1024" alt="Octavio hugs a giant glowing microchip marked with three bars." loading="lazy">
+              <img src="images/octavio-beat-11.jpg" width="1024" height="1024" alt="Octavio hugs a giant glowing microchip marked with three bars." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">11</span>Next stop: real silicon. Phones today. Every chip tomorrow.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="So he minted a meme. $OCTAVIO was born on notrandom.fun.">
-              <img src="images/octavio-beat-12.jpg" width="1024" height="1024" alt="Octavio launches a shiny orange coin with his face and a sparkle trail." loading="lazy">
+              <img src="images/octavio-beat-12.jpg" width="1024" height="1024" alt="Octavio launches a shiny orange coin with his face and a sparkle trail." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">12</span>So he minted a meme. $OCTAVIO was born on notrandom.fun.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Paper hands? He has eight diamond tentacles.">
-              <img src="images/octavio-beat-13.jpg" width="1024" height="1024" alt="Octavio wears tiny sunglasses and shows sparkling diamond-coated tentacles." loading="lazy">
+              <img src="images/octavio-beat-13.jpg" width="1024" height="1024" alt="Octavio wears tiny sunglasses and shows sparkling diamond-coated tentacles." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">13</span>Paper hands? He has eight diamond tentacles.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="The meme legends asked where his server was. He held up his phone. Then a chip.">
-              <img src="images/octavio-beat-14.jpg" width="1024" height="1024" alt="At a beach party with other cartoon mascots, Octavio holds up a phone and a chip." loading="lazy">
+              <img src="images/octavio-beat-14.jpg" width="1024" height="1024" alt="At a beach party with other cartoon mascots, Octavio holds up a phone and a chip." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">14</span>The meme legends asked where his server was. He held up his phone. Then a chip.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="Eight arms = eight nodes. Every holder makes the reef stronger.">
-              <img src="images/octavio-beat-15.jpg" width="1024" height="1024" alt="Many little Octavios hold phones linked by glowing network lines." loading="lazy">
+              <img src="images/octavio-beat-15.jpg" width="1024" height="1024" alt="Many little Octavios hold phones linked by glowing network lines." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">15</span>Eight arms = eight nodes. Every holder makes the reef stronger.</figcaption>
           </figure>
           <figure class="beat">
             <button class="beat-open" type="button" data-beat data-caption="From the coral to the chip to the moon. Just an Octavio running a node. WAGMI.">
-              <img src="images/octavio-beat-16.jpg" width="1024" height="1024" alt="Octavio rides a rocket toward the moon with a phone and a chip." loading="lazy">
+              <img src="images/octavio-beat-16.jpg" width="1024" height="1024" alt="Octavio rides a rocket toward the moon with a phone and a chip." loading="lazy" decoding="async">
             </button>
             <figcaption><span class="beat-no">16</span>From the coral to the chip to the moon. Just an Octavio running a node. WAGMI.</figcaption>
           </figure>
@@ -178,7 +203,7 @@
           <p class="lede">The reef already picked a side.</p>
         </header>
         <figure class="meme-feature">
-          <img src="x/octavio-drake-meme-2048.jpg" width="2048" height="2048" alt="Two-panel meme. On the left, Drake turns away from the words Continue without Mascot. Below, he points at Octavio, the orange octopus in a white hoodie." loading="lazy">
+          <img src="x/octavio-drake-meme-2048.jpg" width="1720" height="1720" alt="Two-panel meme. On the left, Drake turns away from the words Continue without Mascot. Below, he points at Octavio, the orange octopus in a white hoodie." loading="lazy" decoding="async">
           <figcaption>Continue with the mascot.</figcaption>
         </figure>
         <div class="quotes">
@@ -332,11 +357,11 @@
 
   <p class="toast" data-toast role="status" aria-live="polite"></p>
 
-  <dialog class="lightbox" data-lightbox aria-label="Story image">
+  <dialog class="lightbox" data-lightbox aria-labelledby="lightbox-caption">
     <div class="lightbox-card">
       <img alt="" data-lightbox-img>
       <div class="lightbox-bar">
-        <p data-lightbox-cap></p>
+        <p id="lightbox-caption" data-lightbox-cap></p>
         <form method="dialog">
           <button class="lightbox-close" type="submit">Close</button>
         </form>

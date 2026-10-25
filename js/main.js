@@ -35,6 +35,16 @@
     }, 2800);
   }
 
+  function pulse(button, kind) {
+    button.classList.remove("is-ack", "is-warn");
+    void button.offsetWidth;
+    button.classList.add(kind);
+    window.clearTimeout(button._pulse);
+    button._pulse = window.setTimeout(function () {
+      button.classList.remove(kind);
+    }, 900);
+  }
+
   var ca = config.ca;
   var placeholder = isPlaceholder(ca);
   var caText = placeholder ? "[CA]" : String(ca).trim();
@@ -62,13 +72,16 @@
     }
     button.addEventListener("click", function () {
       if (placeholder) {
+        pulse(button, "is-ack");
         showToast("Coming soon. No contract address is published yet.");
         return;
       }
       var done = function () {
+        pulse(button, "is-ack");
         showToast("Copied the contract address.");
       };
       var fail = function () {
+        pulse(button, "is-warn");
         showToast("Could not copy. Select the address and copy it yourself.");
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -81,23 +94,33 @@
 
   var menuButton = document.querySelector("[data-nav-toggle]");
   var menu = document.querySelector("[data-nav]");
+  var desktopNav = window.matchMedia("(min-width: 1040px)");
+  function setMenu(open) {
+    if (!menuButton || !menu) return;
+    var show = open && !desktopNav.matches;
+    menu.classList.toggle("is-open", show);
+    menuButton.setAttribute("aria-expanded", show ? "true" : "false");
+    menuButton.textContent = show ? "Close" : "Menu";
+    menu.inert = !desktopNav.matches && !show;
+  }
   if (menuButton && menu) {
+    setMenu(false);
     menuButton.addEventListener("click", function () {
-      var open = menu.classList.toggle("is-open");
-      menuButton.setAttribute("aria-expanded", open ? "true" : "false");
+      setMenu(!menu.classList.contains("is-open"));
     });
     menu.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
-        menu.classList.remove("is-open");
-        menuButton.setAttribute("aria-expanded", "false");
+        setMenu(false);
       });
     });
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        menu.classList.remove("is-open");
-        menuButton.setAttribute("aria-expanded", "false");
-      }
+      if (event.key === "Escape") setMenu(false);
     });
+    if (desktopNav.addEventListener) {
+      desktopNav.addEventListener("change", function () {
+        setMenu(false);
+      });
+    }
   }
 
   var sections = ["home", "story", "meme", "apps", "roadmap", "buy"]
@@ -131,6 +154,7 @@
   var lightboxCap = document.querySelector("[data-lightbox-cap]");
 
   document.querySelectorAll("[data-beat]").forEach(function (button) {
+    button.setAttribute("aria-haspopup", "dialog");
     button.addEventListener("click", function () {
       if (!dialog || !lightboxImg) return;
       var img = button.querySelector("img");
@@ -171,5 +195,119 @@
       note.textContent = "";
       note.appendChild(link);
     }
+  }
+
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var syncHeader = function () {
+      header.classList.toggle("is-scrolled", window.scrollY > 12);
+    };
+    syncHeader();
+    window.addEventListener("scroll", syncHeader, { passive: true });
+  }
+
+  setupKineticTitle();
+
+  function setupKineticTitle() {
+    var title = document.getElementById("home-title");
+    var hero = document.querySelector(".hero");
+    if (!title || !hero) return;
+    var motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var source = (title.getAttribute("data-label") || title.textContent || "").replace(/\s+/g, "");
+    if (!source) return;
+    title.setAttribute("data-label", source);
+    var letters = [];
+    var watching = false;
+    var scheduled = false;
+    var io = null;
+
+    function plain() {
+      stop();
+      if (io) io.disconnect();
+      title.textContent = source;
+      title.removeAttribute("aria-label");
+      title.removeAttribute("data-kinetic");
+      letters = [];
+    }
+
+    function split() {
+      if (title.getAttribute("data-kinetic") === "on") return;
+      title.textContent = "";
+      title.setAttribute("aria-label", source);
+      title.setAttribute("data-kinetic", "on");
+      letters = [];
+      for (var i = 0; i < source.length; i++) {
+        var span = document.createElement("span");
+        span.className = "k-letter";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = source.charAt(i);
+        title.appendChild(span);
+        letters.push(span);
+      }
+    }
+
+    function paint() {
+      scheduled = false;
+      if (!letters.length) return;
+      var rect = hero.getBoundingClientRect();
+      var passed = Math.max(0, -rect.top);
+      var travel = Math.max(1, hero.offsetHeight * 0.38);
+      var raw = passed / travel;
+      var progress = raw < 0 ? 0 : raw > 1 ? 1 : raw;
+      var last = letters.length - 1 || 1;
+      for (var i = 0; i < letters.length; i++) {
+        var stagger = 0.4 + (i / last) * 0.6;
+        letters[i].style.setProperty("--shift", (-(progress * 16 * stagger)).toFixed(2));
+      }
+    }
+
+    function onScroll() {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(paint);
+    }
+
+    function start() {
+      if (watching) return;
+      watching = true;
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      paint();
+    }
+
+    function stop() {
+      if (!watching) return;
+      watching = false;
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    }
+
+    function apply() {
+      if (motion.matches) {
+        plain();
+        return;
+      }
+      split();
+      if ("IntersectionObserver" in window) {
+        if (!io) {
+          io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) start();
+              else {
+                paint();
+                stop();
+              }
+            });
+          });
+        }
+        io.observe(hero);
+      } else {
+        start();
+      }
+      paint();
+    }
+
+    apply();
+    if (motion.addEventListener) motion.addEventListener("change", apply);
   }
 })();
