@@ -341,11 +341,47 @@ h2 {
   line-height: 1.25;
 }
 
+.about {
+  margin-top: 0.85rem;
+  max-width: 42ch;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.6rem;
+}
+
+.ca-row {
+  margin-top: 1.15rem;
+  max-width: 36rem;
+}
+
+.ca-row-label {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ca-row .ca-value {
+  margin-top: 0;
+  font-size: clamp(0.92rem, 2.8vw, 1rem);
+  line-height: 1.45;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.ca-row .ca-copy {
+  margin-top: 0.75rem;
+  width: 100%;
 }
 
 .btn {
@@ -1099,6 +1135,10 @@ code {
 }
 
 @media (min-width: 720px) {
+  .ca-row .ca-copy {
+    width: auto;
+  }
+
   .beat-grid {
     grid-template-columns: 1fr 1fr;
   }

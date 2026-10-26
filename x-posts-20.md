@@ -2,7 +2,7 @@
 
 Community meme captions. Not an endorsement, partnership, or affiliation by Minima Global, Arm, or Siemens.
 Catchphrase: "Just an Octavio running a node."
-(CA placeholder: [CA] — replace only with the real contract after launch on notrandom.fun)
+(CA: oCTKT8AofFcZG5GrfJnPhjebXeuoSYxHoGAq2WeAvio)
 Ticker: $OCTAVIO · Style: ntrndmguy — 1 short line + image/video
 
 ## Pre-CA (bio / lore)
@@ -23,7 +23,7 @@ Ticker: $OCTAVIO · Style: ntrndmguy — 1 short line + image/video
 15. The dog asked for my server. I showed him my phone.
 16. Eight arms of vibes. Zero servers.
 17. Loading the reef… $OCTAVIO soon on notrandom.fun
-18. $OCTAVIO is live on notrandom.fun  CA: [CA]
+18. $OCTAVIO is live on notrandom.fun  CA: oCTKT8AofFcZG5GrfJnPhjebXeuoSYxHoGAq2WeAvio
 19. gn. Node's still running. Tentacles still diamond.
 20. From the coral to the chip. Just an Octavio running a node.
 

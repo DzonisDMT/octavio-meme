@@ -2,9 +2,11 @@
 
 Static landing page for the **$OCTAVIO** community meme coin.
 
+$OCTAVIO is the original community meme coin for Octavio (Minima Global’s official community mascot).
+
 Catchphrase: **Just an Octavio running a node.**
 
-Community meme only — not affiliated with Minima Global, Arm, or Siemens. Do not add copy that says those organizations endorse, partner with, or are affiliated with the coin, notrandom, or PixelLotto.
+Community meme project. Not affiliated with, endorsed by, or partnered with Minima Global, Arm, or Siemens as a protocol partner. Not investment advice. Do not add copy that says those organizations endorse, partner with, or are affiliated with the coin, notrandom, or PixelLotto.
 
 ## Preview locally
 
@@ -20,10 +22,10 @@ Open http://127.0.0.1:8765/
 
 Open `js/config.js` and change `ca`.
 
-- Leave `ca` as `"[CA]"` until the real address exists. The Copy CA control stays in a **Coming soon** state and does not copy a placeholder into the clipboard.
-- When the coin is live, set `ca` to the exact address published on notrandom.fun. Both Copy CA buttons then copy that string.
+- The live Solana mint is set in `ca`. The hero and the Buy section both show that string and copy it.
+- Leave `ca` as `"[CA]"` only if the address must come down. The Copy CA control then stays in a **Coming soon** state and does not copy a placeholder into the clipboard.
 
-There is one config value. The hero and the Buy section both read it.
+There is one contract value. Do not paste the address into the HTML. notrandom.fun has no per-coin trade URL, so Buy on notrandom still opens https://notrandom.fun.
 
 ## PixelLotto link
 
@@ -59,12 +61,12 @@ Later pushes to `main` publish on their own.
 
 ## What is on the page
 
-- Home: ticker, catchphrase, Buy on notrandom, contract control, first-post art
+- Home: ticker, catchphrase, short about, Buy on notrandom, contract address, first-post art
 - Story: 16 origin beats and their images
 - Meme wall: Drake meme, plus short community captions
 - Community MiniDapps: PixelLotto rules, coming-soon card, no public URL
 - Roadmap: Phase 3 MiniDapps mentions PixelLotto
-- Buy: notrandom.fun, contract placeholder, share-fee labels (informational, not a promise of returns)
+- Buy: notrandom.fun, the contract address from `js/config.js`, share-fee labels (informational, not a promise of returns)
 - Footer: catchphrase and the affiliation disclaimer
 
 ## Assets
