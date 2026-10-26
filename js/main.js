@@ -35,6 +35,40 @@
     }, 2800);
   }
 
+  function copyWithTextarea(text) {
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.top = "0";
+    area.style.left = "0";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    area.setSelectionRange(0, text.length);
+    var ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch (error) {
+      ok = false;
+    }
+    document.body.removeChild(area);
+    return ok;
+  }
+
+  function copyText(text, done, fail) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {
+        if (copyWithTextarea(text)) done();
+        else fail();
+      });
+      return;
+    }
+    if (copyWithTextarea(text)) done();
+    else fail();
+  }
+
   function pulse(button, kind) {
     button.classList.remove("is-ack", "is-warn");
     void button.offsetWidth;
@@ -54,7 +88,7 @@
   });
 
   document.querySelectorAll("[data-ca-status]").forEach(function (node) {
-    node.textContent = placeholder ? "Coming soon" : "Published";
+    node.textContent = placeholder ? "Coming soon" : "Live";
     node.classList.toggle("is-live", !placeholder);
   });
 
@@ -84,11 +118,7 @@
         pulse(button, "is-warn");
         showToast("Could not copy. Select the address and copy it yourself.");
       };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(caText).then(done).catch(fail);
-      } else {
-        fail();
-      }
+      copyText(caText, done, fail);
     });
   });
 

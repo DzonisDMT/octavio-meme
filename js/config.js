@@ -2,11 +2,10 @@
    Edit the two values below. Everything else on the page reads them.
    Do not add endorsement, partnership, or affiliation claims. */
 window.OCTAVIO_CONFIG = {
-  /* Contract address.
-     Leave "[CA]" until the real address is published.
-     The page then shows a Coming soon state and does not copy a fake address.
-     When you paste the real address, Copy CA copies that exact string. */
-  ca: "[CA]",
+  /* Contract address (Solana mint).
+     Leave "[CA]" to show Coming soon and block copy.
+     Copy CA copies this string exactly. Do not retype or truncate it. */
+  ca: "oCTKT8AofFcZG5GrfJnPhjebXeuoSYxHoGAq2WeAvio",
 
   /* PIXELLOTTO_URL
      Paste the real PixelLotto site here when it exists:
