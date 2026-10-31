@@ -24,11 +24,13 @@ const page = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="v
 document.getElementById("login").addEventListener("submit",async e=>{e.preventDefault();const b=e.currentTarget.querySelector("button"),m=document.getElementById("error");b.disabled=true;b.textContent="CHECKING…";m.textContent="";try{const r=await fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.getElementById("pw").value})});if(r.ok)location.reload();else m.textContent="Incorrect password. Try again."}catch(_){m.textContent="Connection error. Try again."}finally{b.disabled=false;b.textContent="ENTER THE REEF"}});
 </script></body></html>`;
 
-export async function middleware(request) {
+async function middleware(request) {
   const secret = process.env.OCTAVIO_SITE_PASSWORD;
   if (!secret) return new Response("Password protection is not configured.", {status:503});
   if (await allowed(request, secret)) return;
   return new Response(page, {status:401,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}});
 }
 
-export const config = {matcher:["/((?!api/login).*)"]};
+export const config = {runtime:"nodejs", matcher:["/((?!api/login).*)"]};
+
+export default middleware;
