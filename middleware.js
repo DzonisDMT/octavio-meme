@@ -4,7 +4,7 @@ const MAX_AGE = 604800;
 async function sign(value, secret) {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), {name:"HMAC",hash:"SHA-256"}, false, ["sign"]);
   const bytes = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(value)));
-  return btoa(String.fromCharCode(...bytes)).replace(/=/g,"").replace(/\\+/g,"-").replace(/\\//g,"_");
+  return btoa(String.fromCharCode(...bytes)).replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_");
 }
 
 async function allowed(request, secret) {
@@ -13,7 +13,7 @@ async function allowed(request, secret) {
   if (!item) return false;
   const token = decodeURIComponent(item.slice(COOKIE.length + 1));
   const parts = token.split(".");
-  if (parts.length !== 2 || !/^\\d+$/.test(parts[0])) return false;
+  if (parts.length !== 2 || !/^\d+$/.test(parts[0])) return false;
   const age = Math.floor(Date.now()/1000) - Number(parts[0]);
   if (age < 0 || age > MAX_AGE) return false;
   return parts[1] === await sign(parts[0], secret);
