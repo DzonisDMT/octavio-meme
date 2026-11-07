@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OCTAVIO // 3D ROBOT LAB</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--orange:#ff7a24;--ink:#f5f2ec;--muted:#8f9aa8;--line:#283544;--panel:#101a27}
+*{box-sizing:border-box}body{margin:0;background:#07111c;color:var(--ink);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+.shell{max-width:1440px;margin:auto;padding:22px 26px 28px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:5px 0 18px}.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.12em}.mark{width:34px;height:34px;border-radius:50%;background:var(--orange);display:grid;place-items:center;color:#111;font-size:18px}.tag{font:11px 'DM Mono';color:var(--muted);letter-spacing:.12em}.status{font:11px 'DM Mono';color:#9be2b0}.status:before{content:'';display:inline-block;width:7px;height:7px;background:#62d58b;border-radius:50%;margin-right:8px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:18px;margin-top:20px}.stage{position:relative;min-height:650px;height:min(72vh,800px);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:radial-gradient(ellipse at 50% 43%,#1b2a39 0%,#0b1724 56%,#07111c 100%)}
+#scene{width:100%;height:100%;display:block}.hud{position:absolute;pointer-events:none;top:18px;left:20px}.eyebrow{font:10px 'DM Mono';letter-spacing:.16em;color:var(--orange)}h1{font-size:clamp(26px,4vw,42px);line-height:1;margin:8px 0 7px;letter-spacing:-.05em}.sub{color:var(--muted);font-size:13px}.coordinates{position:absolute;bottom:17px;left:20px;font:10px 'DM Mono';color:#718091;letter-spacing:.1em}.hint{position:absolute;bottom:17px;right:20px;font:10px 'DM Mono';color:#718091}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:18px}.panel h2{font:11px 'DM Mono';letter-spacing:.14em;color:var(--muted);margin:0 0 10px}.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{background:#0a1420;border:1px solid var(--line);padding:11px;border-radius:8px}.metric strong{display:block;font-size:22px;color:var(--orange)}.metric span{font:9px 'DM Mono';color:var(--muted);letter-spacing:.1em}
+button{width:100%;border:1px solid #344355;background:#172535;color:var(--ink);border-radius:8px;padding:11px 12px;font:600 12px 'Space Grotesk';cursor:pointer;transition:.18s}button:hover{border-color:var(--orange);transform:translateY(-1px)}button.primary{background:var(--orange);border-color:var(--orange);color:#141414}button.active{border-color:var(--orange);color:var(--orange)}.buttons{display:grid;gap:8px}.rowbtn{display:grid;grid-template-columns:1fr 1fr;gap:8px}.partlist{display:grid;gap:7px}.part{display:flex;justify-content:space-between;align-items:center;font:10px 'DM Mono';color:#aeb8c3;padding:7px 0;border-bottom:1px solid #1d2a38}.part b{color:#f2f0ea;font-weight:400}.part em{font-style:normal;color:#69d695}.foot{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;display:flex;justify-content:space-between;color:#657384;font:10px 'DM Mono';letter-spacing:.08em}
+@media(max-width:850px){.shell{padding:14px}.layout{grid-template-columns:1fr}.stage{height:60vh;min-height:450px}.panel{display:grid;grid-template-columns:1fr 1fr}.panel section:first-child{grid-column:1/-1}.foot{gap:10px;flex-wrap:wrap}}
+@media(max-width:520px){.panel{display:flex}.stage{min-height:430px;height:55vh}.tag{display:none}.hud{top:14px;left:14px}.hint{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top"><div class="brand"><div class="mark">◉</div><span>OCTAVIO</span><span class="tag">ROBOTICS DIVISION / EXPERIMENT 001</span></div><div class="status">SYSTEM ONLINE</div></header>
+<main class="layout">
+<section class="stage"><canvas id="scene"></canvas><div class="hud"><div class="eyebrow">PROTOTYPE / OC-08</div><h1>MEET OCTAVIO.</h1><div class="sub">Eight arms. One curious mind.</div></div><div class="coordinates">X: 000.8 &nbsp; Y: 014.2 &nbsp; Z: 008.0 / LIVE RIG</div><div class="hint">DRAG TO ORBIT · SCROLL TO ZOOM</div></section>
+<aside class="panel">
+<section><h2>UNIT TELEMETRY</h2><div class="readout"><div class="metric"><strong id="armCount">08</strong><span>ACTIVE ARMS</span></div><div class="metric"><strong id="jointCount">48</strong><span>ARTICULATED JOINTS</span></div><div class="metric"><strong>98.7%</strong><span>CORE STABILITY</span></div><div class="metric"><strong id="mode">IDLE</strong><span>BEHAVIOUR</span></div></div></section>
+<section><h2>COMMAND DECK</h2><div class="buttons"><button class="primary" id="wave">▶ INITIATE WAVE SEQUENCE</button><div class="rowbtn"><button id="explode">EXPLODE VIEW</button><button id="reset">RESET RIG</button></div><div class="rowbtn"><button id="spin">AUTO ROTATE: OFF</button><button id="detach">DETACH ARM 04</button></div></div></section>
+<section><h2>ASSEMBLY MANIFEST</h2><div class="partlist"><div class="part"><b>01 / HEAD + OPTICS</b><em>ONLINE</em></div><div class="part"><b>02 / HOODIE SHELL</b><em>LOCKED</em></div><div class="part"><b>03 / TENTACLE ARRAY</b><em id="armStatus">8 / 8 ONLINE</em></div><div class="part"><b>04 / SUCTION GRIPPERS</b><em>48 ACTIVE</em></div><div class="part"><b>05 / CORE PROCESSOR</b><em>STABLE</em></div></div></section>
+<div class="tag">BUILD 0.1.0 · THREE.JS EXPERIMENT</div>
+</aside>
+</main>
+<footer class="foot"><span>OCTAVIO / AUTONOMOUS EXPLORER</span><span>INTERACTIVE 3D CHARACTER STUDY</span><span>NOT A PHYSICAL ROBOT</span></footer>
+</div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/controls/OrbitControls.js';
+const canvas=document.querySelector('#scene'), scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(36,1,.1,100);camera.position.set(0,2.6,10.8);
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;
+const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.target.set(0,.15,0);controls.minDistance=6;controls.maxDistance=17;
+scene.add(new THREE.HemisphereLight(0xbdd8f0,0x17202b,2.0));
+const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(4,7,6);key.castShadow=true;scene.add(key);
+const rim=new THREE.PointLight(0xff762b,65,14);rim.position.set(-4,2,2);scene.add(rim);
+const floor=new THREE.Mesh(new THREE.CircleGeometry(7,80),new THREE.MeshStandardMaterial({color:0x0b1926,roughness:.9,metalness:.1}));floor.rotation.x=-Math.PI/2;floor.position.y=-2.1;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(16,32,0x304354,0x1b2b39);grid.position.y=-2.08;scene.add(grid);
+const orange=new THREE.MeshStandardMaterial({color:0xff812e,roughness:.48});
+const orangeDark=new THREE.MeshStandardMaterial({color:0xc94f16,roughness:.5});
+const white=new THREE.MeshStandardMaterial({color:0xf1eee7,roughness:.72});
+const black=new THREE.MeshStandardMaterial({color:0x17191d,roughness:.22});
+const eyeMat=new THREE.MeshPhysicalMaterial({color:0x542b19,roughness:.12,clearcoat:1,clearcoatRoughness:.06});
+const shine=new THREE.MeshBasicMaterial({color:0xffffff});
+const octo=new THREE.Group();scene.add(octo);
+function sphere(parent,mat,pos,scale,segments=32){const m=new THREE.Mesh(new THREE.SphereGeometry(1,segments,segments),mat);m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+function cylinder(parent,mat,a,b,r1,r2){const d=new THREE.Vector3().subVectors(new THREE.Vector3(...b),new THREE.Vector3(...a));const m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,d.length(),16),mat);m.position.copy(new THREE.Vector3(...a).add(new THREE.Vector3(...b)).multiplyScalar(.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());m.castShadow=true;parent.add(m);return m}
+// Rounded orange head and white hoodie torso.
+sphere(octo,orange,[0,.72,0],[1.18,1.12,.95],48);
+sphere(octo,white,[0,-.62,0],[.91,.92,.78],40);
+sphere(octo,white,[0,.05,.60],[.73,.24,.31],32); // hood opening / collar
+sphere(octo,orange,[0,.06,.77],[.53,.23,.18],32);
+sphere(octo,black,[0,-.68,.755],[.30,.20,.045],24); // hoodie pocket shadow
+sphere(octo,white,[0,-.68,.80],[.26,.15,.035],24);
+const logo=document.createElement('canvas');logo.width=256;logo.height=80;const ctx=logo.getContext('2d');ctx.fillStyle='#17202a';ctx.font='bold 42px Arial';ctx.textAlign='center';ctx.fillText('OCTAVIO',128,54);const tex=new THREE.CanvasTexture(logo);const badge=new THREE.Mesh(new THREE.PlaneGeometry(.55,.17),new THREE.MeshBasicMaterial({map:tex,transparent:true}));badge.position.set(0,-.37,.806);octo.add(badge);
+// expressive eyes and smile, facing camera.
+for(const x of [-.43,.43]){sphere(octo,white,[x,.91,.80],[.30,.37,.20],32);sphere(octo,eyeMat,[x+.015,.91,.976],[.205,.265,.09],32);sphere(octo,shine,[x-.055,1.035,1.05],[.066,.08,.025],16);sphere(octo,shine,[x+.09,.84,1.05],[.028,.035,.015],12)}
+const smile=new THREE.Mesh(new THREE.TorusGeometry(.19,.025,10,32,Math.PI),black);smile.position.set(0,.43,.94);smile.rotation.z=Math.PI;octo.add(smile);
+// tiny cheek dots
+for(const x of [-.76,.76])sphere(octo,orangeDark,[x,.48,.72],[.07,.045,.025],16);
+// tentacles: articulated white segments, orange joints and visible suction cups.
+const arms=[];
+for(let i=0;i<8;i++){
+ const angle=i*Math.PI/4+Math.PI/8, pivot=new THREE.Group();pivot.position.set(Math.cos(angle)*.76,-.62,Math.sin(angle)*.62);octo.add(pivot);
+ const len=1.52+(i%3)*.12;let prev=[0,0,0];const segments=[];
+ for(let j=0;j<6;j++){
+  const t=(j+1)/6, next=[Math.cos(angle)*len*t, -.12*Math.sin(t*Math.PI)+.18*t, Math.sin(angle)*len*t];
+  const seg=new THREE.Group();seg.position.set(...prev);pivot.add(seg);
+  const end=new THREE.Vector3(...next).sub(new THREE.Vector3(...prev));const rod=new THREE.Mesh(new THREE.CylinderGeometry(.105*(1-t*.48),.15*(1-t*.35),end.length(),14),white);rod.position.copy(end).multiplyScalar(.5);rod.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),end.clone().normalize());rod.castShadow=true;seg.add(rod);
+  sphere(seg,orangeDark,[...prev],[.13*(1-t*.25),.13*(1-t*.25),.13*(1-t*.25)],16);
+  // orange hinge ring and black mechanical collar
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.12*(1-t*.35),.025,8,20),orange);ring.position.copy(end).multiplyScalar(.78);ring.quaternion.copy(rod.quaternion);seg.add(ring);
+  // underside suction cups
+  for(let k=0;k<2;k++){const cup=sphere(seg,orangeDark,[end.x*(.40+k*.34),-.085,end.z*(.40+k*.34)],[.075*(1-t*.4),.035,.075*(1-t*.4)],12);cup.rotation.x=-.3}
+  const joint=sphere(seg,orange,[...next],[.10*(1-t*.4),.10*(1-t*.4),.10*(1-t*.4)],14);
+  segments.push(seg);prev=next;
+ }
+ const tip=sphere(pivot,orangeDark,prev,[.11,.10,.11],16);
+ arms.push({pivot,segments,angle,baseY:pivot.rotation.y,detached:false,phase:i*.65});
+}
+// orange side ear-like head fins / antenna nubs
+for(const x of [-.8,.8]){const a=sphere(octo,orange,[x,1.55,0],[.17,.34,.17]);a.rotation.z=x<0?-.35:.35}
+let wave=false,explode=false,spin=false,detached=false,clock=new THREE.Clock();
+function setMode(v){document.querySelector('#mode').textContent=v}
+document.querySelector('#wave').onclick=()=>{wave=!wave;document.querySelector('#wave').textContent=wave?'Ⅱ STOP WAVE SEQUENCE':'▶ INITIATE WAVE SEQUENCE';setMode(wave?'WAVING':'IDLE')};
+document.querySelector('#explode').onclick=()=>{explode=!explode;document.querySelector('#explode').classList.toggle('active',explode);document.querySelector('#explode').textContent=explode?'CLOSE EXPLODED VIEW':'EXPLODE VIEW'};
+document.querySelector('#spin').onclick=()=>{spin=!spin;document.querySelector('#spin').textContent='AUTO ROTATE: '+(spin?'ON':'OFF');document.querySelector('#spin').classList.toggle('active',spin);controls.autoRotate=spin;controls.autoRotateSpeed=1.4};
+document.querySelector('#detach').onclick=()=>{detached=!detached;const arm=arms[3];arm.detached=detached;arm.pivot.visible=true;arm.pivot.userData.detachTarget=detached?1:0;document.querySelector('#detach').textContent=detached?'REATTACH ARM 04':'DETACH ARM 04';document.querySelector('#armCount').textContent=detached?'07':'08';document.querySelector('#jointCount').textContent=detached?'42':'48';document.querySelector('#armStatus').textContent=detached?'7 / 8 ONLINE':'8 / 8 ONLINE';setMode(detached?'ARM DETACHED':'IDLE')};
+document.querySelector('#reset').onclick=()=>{wave=false;explode=false;spin=false;detached=false;arms.forEach(a=>{a.pivot.position.set(Math.cos(a.angle)*.76,-.62,Math.sin(a.angle)*.62);a.pivot.visible=true;a.pivot.userData.detachTarget=0});octo.position.set(0,0,0);octo.rotation.set(0,0,0);controls.autoRotate=false;controls.reset();document.querySelector('#wave').textContent='▶ INITIATE WAVE SEQUENCE';document.querySelector('#spin').textContent='AUTO ROTATE: OFF';document.querySelector('#detach').textContent='DETACH ARM 04';document.querySelector('#explode').textContent='EXPLODE VIEW';document.querySelectorAll('.buttons button').forEach(b=>b.classList.remove('active'));document.querySelector('#armCount').textContent='08';document.querySelector('#jointCount').textContent='48';document.querySelector('#armStatus').textContent='8 / 8 ONLINE';setMode('IDLE')};
+function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(canvas);
+function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();octo.position.y=Math.sin(t*1.4)*.07;octo.rotation.y=Math.sin(t*.35)*.08;
+ arms.forEach((a,i)=>{const targetX=explode?Math.cos(a.angle)*1.35:Math.cos(a.angle)*.76,targetZ=explode?Math.sin(a.angle)*1.35:Math.sin(a.angle)*.62;a.pivot.position.x=THREE.MathUtils.damp(a.pivot.position.x,targetX,.9,.016);a.pivot.position.z=THREE.MathUtils.damp(a.pivot.position.z,targetZ,.9,.016);const det=a.pivot.userData.detachTarget||0;if(det){a.pivot.position.y=THREE.MathUtils.damp(a.pivot.position.y,-.62+Math.sin(t*2)*.2,.9,.016);a.pivot.rotation.x=Math.sin(t*2)*.12}else{a.pivot.position.y=THREE.MathUtils.damp(a.pivot.position.y,-.62,.9,.016);a.pivot.rotation.x=(wave?Math.sin(t*4+a.phase)*.28:Math.sin(t*1.4+a.phase)*.045)}a.pivot.rotation.y=Math.sin(t*1.5+a.phase)*.08});
+ controls.update();renderer.render(scene,camera)}
+resize();animate();
+</script>
+</body></html>
