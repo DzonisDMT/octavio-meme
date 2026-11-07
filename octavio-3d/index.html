@@ -36,57 +36,104 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const canvas=document.querySelector('#scene'), scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(36,1,.1,100);camera.position.set(0,2.6,10.8);
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
 const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.target.set(0,.15,0);controls.minDistance=6;controls.maxDistance=17;
-scene.add(new THREE.HemisphereLight(0xbdd8f0,0x17202b,2.0));
-const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(4,7,6);key.castShadow=true;scene.add(key);
-const rim=new THREE.PointLight(0xff762b,65,14);rim.position.set(-4,2,2);scene.add(rim);
+scene.add(new THREE.HemisphereLight(0xc8d7e8,0x10151d,1.45));
+const key=new THREE.DirectionalLight(0xe8f1ff,4.1);key.position.set(4,7,6);key.castShadow=true;scene.add(key);
+const rim=new THREE.PointLight(0xff762b,42,14);rim.position.set(-4,2,2);scene.add(rim);
 const floor=new THREE.Mesh(new THREE.CircleGeometry(7,80),new THREE.MeshStandardMaterial({color:0x0b1926,roughness:.9,metalness:.1}));floor.rotation.x=-Math.PI/2;floor.position.y=-2.1;floor.receiveShadow=true;scene.add(floor);
 const grid=new THREE.GridHelper(16,32,0x304354,0x1b2b39);grid.position.y=-2.08;scene.add(grid);
-const orange=new THREE.MeshStandardMaterial({color:0xff812e,roughness:.48});
-const orangeDark=new THREE.MeshStandardMaterial({color:0xc94f16,roughness:.5});
-const white=new THREE.MeshStandardMaterial({color:0xf1eee7,roughness:.72});
-const black=new THREE.MeshStandardMaterial({color:0x17191d,roughness:.22});
-const eyeMat=new THREE.MeshPhysicalMaterial({color:0x542b19,roughness:.12,clearcoat:1,clearcoatRoughness:.06});
+const orange=new THREE.MeshStandardMaterial({color:0xf07825,metalness:.72,roughness:.29});
+const orangeDark=new THREE.MeshStandardMaterial({color:0x9e431b,metalness:.82,roughness:.34});
+const white=new THREE.MeshStandardMaterial({color:0xd9dce0,metalness:.48,roughness:.32});
+const black=new THREE.MeshStandardMaterial({color:0x111820,metalness:.62,roughness:.42});
+const titanium=new THREE.MeshStandardMaterial({color:0x697783,metalness:.88,roughness:.24});
+const steel=new THREE.MeshStandardMaterial({color:0xb7c0c8,metalness:.94,roughness:.2});
+const rubber=new THREE.MeshStandardMaterial({color:0x171b20,metalness:.08,roughness:.86});
+const eyeMat=new THREE.MeshPhysicalMaterial({color:0x4a2416,metalness:.18,roughness:.16,clearcoat:1,clearcoatRoughness:.035});
 const shine=new THREE.MeshBasicMaterial({color:0xffffff});
 const octo=new THREE.Group();scene.add(octo);
 function sphere(parent,mat,pos,scale,segments=32){const m=new THREE.Mesh(new THREE.SphereGeometry(1,segments,segments),mat);m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
 function cylinder(parent,mat,a,b,r1,r2){const d=new THREE.Vector3().subVectors(new THREE.Vector3(...b),new THREE.Vector3(...a));const m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,d.length(),16),mat);m.position.copy(new THREE.Vector3(...a).add(new THREE.Vector3(...b)).multiplyScalar(.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());m.castShadow=true;parent.add(m);return m}
-// Rounded orange head and white hoodie torso.
-sphere(octo,orange,[0,.72,0],[1.18,1.12,.95],48);
-sphere(octo,white,[0,-.62,0],[.91,.92,.78],40);
-sphere(octo,white,[0,.05,.60],[.73,.24,.31],32); // hood opening / collar
-sphere(octo,orange,[0,.06,.77],[.53,.23,.18],32);
-sphere(octo,black,[0,-.68,.755],[.30,.20,.045],24); // hoodie pocket shadow
-sphere(octo,white,[0,-.68,.80],[.26,.15,.035],24);
-const logo=document.createElement('canvas');logo.width=256;logo.height=80;const ctx=logo.getContext('2d');ctx.fillStyle='#17202a';ctx.font='bold 42px Arial';ctx.textAlign='center';ctx.fillText('OCTAVIO',128,54);const tex=new THREE.CanvasTexture(logo);const badge=new THREE.Mesh(new THREE.PlaneGeometry(.55,.17),new THREE.MeshBasicMaterial({map:tex,transparent:true}));badge.position.set(0,-.37,.806);octo.add(badge);
-// expressive eyes and smile, facing camera.
-for(const x of [-.43,.43]){sphere(octo,white,[x,.91,.80],[.30,.37,.20],32);sphere(octo,eyeMat,[x+.015,.91,.976],[.205,.265,.09],32);sphere(octo,shine,[x-.055,1.035,1.05],[.066,.08,.025],16);sphere(octo,shine,[x+.09,.84,1.05],[.028,.035,.015],12)}
-const smile=new THREE.Mesh(new THREE.TorusGeometry(.19,.025,10,32,Math.PI),black);smile.position.set(0,.43,.94);smile.rotation.z=Math.PI;octo.add(smile);
-// tiny cheek dots
-for(const x of [-.76,.76])sphere(octo,orangeDark,[x,.48,.72],[.07,.045,.025],16);
-// tentacles: articulated white segments, orange joints and visible suction cups.
+// Precision-machined head shell: retain Octavio's orange silhouette, add panel breaks and hardware.
+sphere(octo,orange,[0,.72,0],[1.06,1.03,.87],64);
+sphere(octo,orangeDark,[0,1.34,-.02],[.72,.16,.70],40); // rear crown armour seam
+// Side cheek armour and small recessed fasteners.
+for(const x of [-1,1]){
+ const cheek=sphere(octo,orangeDark,[x*.83,.48,.34],[.19,.31,.34],32);cheek.rotation.z=x*.18;
+ for(let k=0;k<3;k++)sphere(octo,steel,[x*.91,.35+k*.13,.61],[.025,.025,.018],12);
+}
+// White technical hoodie torso, with a sculpted collar and front hardware.
+sphere(octo,white,[0,-.61,0],[.83,.91,.72],56);
+sphere(octo,black,[0,.02,.57],[.67,.24,.23],40);
+sphere(octo,white,[0,.08,.60],[.68,.18,.22],40);
+sphere(octo,orangeDark,[0,.08,.79],[.46,.055,.035],24);
+sphere(octo,black,[0,-.64,.695],[.32,.19,.045],32);
+sphere(octo,white,[0,-.64,.73],[.28,.15,.035],32);
+const zip=cylinder(octo,steel,[0,-.17,.69],[0,-.51,.73],.018,.018);
+for(let y=-.22;y>-.52;y-=.09)sphere(octo,titanium,[0,y,.724],[.025,.025,.012],12);
+// Chest insignia, engraved-look label.
+const logo=document.createElement('canvas');logo.width=512;logo.height=128;const ctx=logo.getContext('2d');ctx.fillStyle='#17202a';ctx.font='bold 66px Arial';ctx.textAlign='center';ctx.fillText('OCTAVIO',256,83);const tex=new THREE.CanvasTexture(logo);const badge=new THREE.Mesh(new THREE.PlaneGeometry(.52,.13),new THREE.MeshBasicMaterial({map:tex,transparent:true}));badge.position.set(0,-.39,.744);octo.add(badge);
+// Recessed optical housings, smaller brown eyes, metal retaining rings and micro-lenses.
+for(const x of [-.39,.39]){
+ sphere(octo,black,[x,.91,.724],[.285,.34,.19],40);
+ const bezel=new THREE.Mesh(new THREE.TorusGeometry(.255,.035,12,48),titanium);bezel.position.set(x,.91,.872);octo.add(bezel);
+ sphere(octo,white,[x,.91,.86],[.205,.255,.105],40);
+ sphere(octo,eyeMat,[x+.012,.91,.952],[.132,.185,.065],40);
+ sphere(octo,black,[x+.018,.91,1.008],[.061,.095,.025],24);
+ sphere(octo,shine,[x-.025,.99,1.025],[.035,.045,.014],16);
+ sphere(octo,shine,[x+.065,.85,1.02],[.016,.022,.009],12);
+}
+// A narrow curved mouth grille rather than a painted cartoon smile.
+const smile=new THREE.Mesh(new THREE.TorusGeometry(.16,.018,10,40,Math.PI),black);smile.position.set(0,.43,.84);smile.rotation.z=Math.PI;octo.add(smile);
+for(let i=-2;i<=2;i++)sphere(octo,steel,[i*.045,.405,.85],[.012,.012,.009],10);
+// Side ventilation slots and head shell screws.
+for(const x of [-.87,.87])for(let k=0;k<4;k++){const vent=sphere(octo,black,[x,.69+k*.075,.32],[.025,.012,.018],10);vent.rotation.z=x*.2}
+for(const x of [-.62,.62])for(const y of [.22,1.28])sphere(octo,steel,[x,y,.66],[.025,.025,.018],12);
+// Eight engineered tentacles: ceramic armour links, exposed titanium joints,
+// hydraulic micro-actuators, braided service lines and rubber suction grippers.
 const arms=[];
 for(let i=0;i<8;i++){
- const angle=i*Math.PI/4+Math.PI/8, pivot=new THREE.Group();pivot.position.set(Math.cos(angle)*.76,-.62,Math.sin(angle)*.62);octo.add(pivot);
- const len=1.52+(i%3)*.12;let prev=[0,0,0];const segments=[];
- for(let j=0;j<6;j++){
-  const t=(j+1)/6, next=[Math.cos(angle)*len*t, -.12*Math.sin(t*Math.PI)+.18*t, Math.sin(angle)*len*t];
+ const angle=i*Math.PI/4+Math.PI/8, pivot=new THREE.Group();pivot.position.set(Math.cos(angle)*.72,-.57,Math.sin(angle)*.58);octo.add(pivot);
+ const len=1.58+(i%3)*.10;let prev=[0,0,0];const segments=[];
+ for(let j=0;j<7;j++){
+  const t=(j+1)/7, next=[Math.cos(angle)*len*t, -.10*Math.sin(t*Math.PI)+.16*t, Math.sin(angle)*len*t];
   const seg=new THREE.Group();seg.position.set(...prev);pivot.add(seg);
-  const end=new THREE.Vector3(...next).sub(new THREE.Vector3(...prev));const rod=new THREE.Mesh(new THREE.CylinderGeometry(.105*(1-t*.48),.15*(1-t*.35),end.length(),14),white);rod.position.copy(end).multiplyScalar(.5);rod.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),end.clone().normalize());rod.castShadow=true;seg.add(rod);
-  sphere(seg,orangeDark,[...prev],[.13*(1-t*.25),.13*(1-t*.25),.13*(1-t*.25)],16);
-  // orange hinge ring and black mechanical collar
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(.12*(1-t*.35),.025,8,20),orange);ring.position.copy(end).multiplyScalar(.78);ring.quaternion.copy(rod.quaternion);seg.add(ring);
-  // underside suction cups
-  for(let k=0;k<2;k++){const cup=sphere(seg,orangeDark,[end.x*(.40+k*.34),-.085,end.z*(.40+k*.34)],[.075*(1-t*.4),.035,.075*(1-t*.4)],12);cup.rotation.x=-.3}
-  const joint=sphere(seg,orange,[...next],[.10*(1-t*.4),.10*(1-t*.4),.10*(1-t*.4)],14);
+  const end=new THREE.Vector3(...next).sub(new THREE.Vector3(...prev));const dir=end.clone().normalize();const mid=end.clone().multiplyScalar(.5);
+  // Structural titanium core and tapered ceramic armour shroud.
+  const core=new THREE.Mesh(new THREE.CylinderGeometry(.075*(1-t*.35),.095*(1-t*.3),end.length()*.94,20),titanium);core.position.copy(mid);core.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir);core.castShadow=true;seg.add(core);
+  const shell=new THREE.Mesh(new THREE.CylinderGeometry(.105*(1-t*.38),.145*(1-t*.35),end.length()*.68,24,1,false),white);shell.position.copy(mid).addScaledVector(dir,.015);shell.quaternion.copy(core.quaternion);shell.castShadow=true;seg.add(shell);
+  // Orange anodised shoulder band and dark joint collar.
+  const collar=new THREE.Mesh(new THREE.TorusGeometry(.115*(1-t*.3),.025,10,28),orange);collar.position.copy(end).multiplyScalar(.78);collar.quaternion.copy(core.quaternion);seg.add(collar);
+  const joint=sphere(seg,black,[...next],[.105*(1-t*.32),.105*(1-t*.32),.105*(1-t*.32)],24);
+  const hub=sphere(seg,titanium,[...next],[.071*(1-t*.25),.071*(1-t*.25),.071*(1-t*.25)],20);
+  // Paired piston rods running along the outside of every link.
+  for(const side of [-1,1]){
+   const offset=new THREE.Vector3(-dir.z,0,dir.x).normalize().multiplyScalar(side*.105*(1-t*.3));
+   const a=offset.clone().addScaledVector(dir,.18),b=offset.clone().addScaledVector(dir,end.length()*.82);
+   const piston=new THREE.Mesh(new THREE.CylinderGeometry(.018,.025,b.distanceTo(a),10),steel);piston.position.copy(a).add(b).multiplyScalar(.5);piston.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),b.sub(a).normalize());seg.add(piston);
+   sphere(seg,orangeDark,[a.x,a.y,a.z],[.032,.032,.032],12);
+  }
+  // Braided black cable conduit follows the upper edge of the arm.
+  const cablePts=[new THREE.Vector3(0,.10,0),new THREE.Vector3(end.x*.35,.13,end.z*.35),new THREE.Vector3(end.x*.68,.12,end.z*.68),new THREE.Vector3(end.x,.08,end.z)];
+  const cable=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(cablePts),18,.022,8,false),rubber);seg.add(cable);
+  // Three recessed rubber suction cups on the underside, each with a metal rim.
+  for(let k=0;k<3;k++){
+   const q=.28+k*.27, pos=new THREE.Vector3(end.x*q,-.095,end.z*q);
+   const cup=sphere(seg,rubber,[pos.x,pos.y,pos.z],[.067*(1-t*.3),.032,.067*(1-t*.3)],18);
+   const lip=new THREE.Mesh(new THREE.TorusGeometry(.055*(1-t*.3),.009,8,20),steel);lip.position.copy(pos);lip.rotation.x=Math.PI/2;seg.add(lip);
+  }
   segments.push(seg);prev=next;
  }
- const tip=sphere(pivot,orangeDark,prev,[.11,.10,.11],16);
+ const tip=sphere(pivot,orangeDark,prev,[.085,.08,.085],20);
  arms.push({pivot,segments,angle,baseY:pivot.rotation.y,detached:false,phase:i*.65});
 }
-// orange side ear-like head fins / antenna nubs
-for(const x of [-.8,.8]){const a=sphere(octo,orange,[x,1.55,0],[.17,.34,.17]);a.rotation.z=x<0?-.35:.35}
+// Twin sensor fins: orange alloy housings with dark optical apertures.
+for(const x of [-.78,.78]){
+ const a=sphere(octo,orange,[x,1.47,-.03],[.13,.25,.13],32);a.rotation.z=x<0?-.3:.3;
+ sphere(octo,black,[x,1.55,.075],[.055,.075,.045],20);
+ sphere(octo,steel,[x,1.55,.115],[.025,.035,.018],12);
+}
 let wave=false,explode=false,spin=false,detached=false,clock=new THREE.Clock();
 function setMode(v){document.querySelector('#mode').textContent=v}
 document.querySelector('#wave').onclick=()=>{wave=!wave;document.querySelector('#wave').textContent=wave?'Ⅱ STOP WAVE SEQUENCE':'▶ INITIATE WAVE SEQUENCE';setMode(wave?'WAVING':'IDLE')};
