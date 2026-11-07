@@ -25,6 +25,9 @@ document.getElementById("login").addEventListener("submit",async e=>{e.preventDe
 </script></body></html>`;
 
 async function middleware(request) {
+  // Keep the experimental 3D character lab accessible on its own preview route.
+  // The rest of the OCTAVIO site remains protected by the shared password.
+  if (new URL(request.url).pathname.startsWith('/octavio-3d')) return;
   const secret = process.env.OCTAVIO_SITE_PASSWORD;
   if (!secret) return new Response("Password protection is not configured.", {status:503});
   if (await allowed(request, secret)) return;
